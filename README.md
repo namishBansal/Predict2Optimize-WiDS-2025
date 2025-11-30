@@ -1,55 +1,96 @@
-# Predict2Optimize-WiDS-2025
-Repo for WiDS 2025 project "Predicting Market Dynamics for Data-Driven Portfolio Optimization"
+# Predict2Optimize — WiDS 2025  
+Predicting Market Dynamics for Data-Driven Portfolio Optimization
 
-## Overview  
-Portfolio optimization is about allocating investments to maximize return and minimize risk. Classical models assume we know expected returns and covariances. We will use ML to help us learn these directly from data.  
-This project teaches how to predict financial quantities using ML and then apply optimization to construct efficient portfolios.  
+## Overview
+You will build a simple pipeline that uses financial data to predict asset returns and construct a basic optimized portfolio. The project progresses step-by-step: data → features → prediction → optimization → backtesting.
 
-## Learning Goals  
-- Use core Python libraries: NumPy, Pandas, Matplotlib, Scikit-Learn, PyTorch  
-- Understand supervised learning (regression)  
-- Estimate returns and risk from data  
-- Apply and visualize mean-variance portfolio optimization  
+---
 
-## Project Structure  
+# Week 1 — Intro to Data Science in Python through Financial Data and Feature Extraction
+**Goals**
+- Use NumPy, Pandas, and Matplotlib.
+- Download daily price data for a small set of stocks.
+- Compute daily returns and build a basic feature table.
 
-| Week | Focus | Core Learning |
-|------|--------|----------------|
-| 1 | Python for Data Science | NumPy, Pandas, Matplotlib |
-| 2 | Regression Models | Linear regression, overfitting |
-| 3 | Neural Networks | MLPs for predicting returns |
-| 4 | Portfolio Optimization | Markowitz model, PyPortfolioOpt |
-| 5 | Integration | ML + optimization, efficient frontier |
+**Tasks**
+- Simple introductory tasks in basic data science libraries
+- Read price data (e.g., from `yfinance`).
+- Handle missing values.
+- Compute log returns.
+- Create simple rolling features (e.g., past 5-day return, 20-day volatility).
+- Visualize prices and returns.
 
-## Week 1: Getting started with Data Science and Python
+---
 
-### Goals  
-- Learn NumPy, Pandas, and Matplotlib basics  
-- Work with financial time series  
-- Compute and visualize returns  
+# Week 2 — Baseline and Regression-based Predictors
+**Goals**
+- Build simple models to predict next-day return from features.
+- Compare several basic regressors.
 
-### Setup  
-Install dependencies preferably in a virtual environment.
+**Tasks**
+- Create a train/test split respecting time order.
+- Implement:  
+  - baseline (predict mean)  
+  - linear regression or ridge regression  
+  - optionally a tree-based model (e.g., XGBoost)
+- Evaluate using standard regression metrics.
+
+---
+
+# Week 3 — Neural Network and Backtesting
+**Goals**
+- Train a small MLP on your features.
+- Run predictions in a rolling, walk-forward fashion.
+
+**Tasks**
+- Build a small MLP using PyTorch.
+- Train with standard settings (normalization, early stopping).
+- Implement a simple walk-forward backtest:  
+  train on past data → predict next period → move forward → repeat.
+
+---
+
+# Week 4 — Portfolio Optimization
+**Goals**
+- Use predicted returns and estimated covariance to compute portfolio weights.
+- Understand and apply the basic Markowitz model.
+
+**Tasks**
+- Estimate covariance from returns.
+- Formulate expected return and risk.
+- Solve the Markowitz problem using a library (we'll try to use `cvxpy` and compare with PyPortfolioOpt as benchmark)
+- Apply practical constraints such as long-only weights.
+- Compare outputs using different covariance estimates.
+
+---
+
+# Week 5 — Integration and Final Backtest
+**Goals**
+- Combine your predictor with your optimizer.
+- Backtest the strategy over time.
+- Visualize the results.
+
+**Tasks**
+- For each period: predict returns → compute optimized weights → track portfolio value.
+- Plot cumulative returns.
+- Plot the efficient frontier for a chosen date.
+- Write a short summary of results and limitations.
+- Accumulate results and work in final report
+
+---
+
+# Setup
+Install the following packages:
 ```
-pip install numpy pandas matplotlib yfinance scikit-learn pyportfolioopt
+pip install numpy pandas matplotlib yfinance scikit-learn xgboost torch cvxpy pyportfolioopt
 ```
 
-### Tasks  
-- to be added
-
-### References  
-- NumPy Quickstart: https://numpy.org/doc/stable/user/quickstart.html  
-- Pandas Guide: https://pandas.pydata.org/docs/user_guide/  
-- Matplotlib Tutorials: https://matplotlib.org/stable/tutorials/  
-- PyPortfolioOpt: https://pyportfolioopt.readthedocs.io/  
-- Reference Paper: [Learning Mean-Variance Efficient Portfolios Using Deep Learning (JAIR, 2024)](https://www.jair.org/index.php/jair/article/view/15320/27076)  
-
-## Week 2: Building your first model
-
-## Week 3: Training a neural network on financial data
-
-## Week 4: Applying Portfolio Optimization
-
-## Week 5: Integrating previous weeks and completing report
-
-**Next:** Regression models for predicting returns using ML.
+# References
+- NumPy, Pandas, Matplotlib official docs
+- Scikit-Learn documentation
+- PyTorch quickstart
+- [`cvxpy` documentation](https://www.cvxpy.org/tutorial/index.html) -- library for convex optimization solvers
+- [PyPortfolioOpt documentation](https://pyportfolioopt.readthedocs.io/en/latest/) -- reference library for benchmarking
+- [The Portfolio Optimization book](https://portfoliooptimizationbook.com/portfolio-optimization-book.pdf) -- Ch 1, 2, 3 (weeks 1-2); 6, 7, 8 (weeks 4-5) can be helpful
+- [Successful Algorithmic Trading](https://raw.githubusercontent.com/englianhu/binary.com-interview-question/fcad2844d7f10c486f3601af9932f49973548e4b/reference/Successful%20Algorithmic%20Trading.pdf) -- general reference
+- Paper: [Decision-Focused Learning:  Foundations, State of the Art,Benchmark and Future Opportunities, 2024, JAIR](https://www.jair.org/index.php/jair/article/view/15320/27076) -- Practical discussion on general 'Predict-to-Optimize' frameworks, with Page 40 framing the exact portfolio optimization problem
